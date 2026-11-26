@@ -492,4 +492,1178 @@
       margin-bottom: 10px;
     }
 
-    .setting-row
+    .setting-row label {
+      font-size: 0.9rem;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .setting-row input[type="text"],
+    .setting-row input[type="number"],
+    .setting-row input[type="password"],
+    .setting-row select {
+      max-width: 250px;
+    }
+
+    .setting-row input[type="color"] {
+      width: 50px;
+      height: 36px;
+      padding: 2px;
+      cursor: pointer;
+    }
+
+    .setting-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .manage-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+
+    .gh-box {
+      background: var(--surface-2);
+      border: 1px dashed var(--accent);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .admin-footer-bar {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 20px 0;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body class="bg-grid">
+
+  <div class="container">
+    <!-- VISIBLE STATUS / ERROR BANNER -->
+    <div class="status-banner" id="statusBanner" role="alert">
+      <span id="statusBannerText"></span>
+      <button type="button" class="btn btn-sm" onclick="hideStatusMessage()">Dismiss</button>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+      <div class="brand">
+        <div class="avatar" id="uiAvatar">O30</div>
+        <div class="brand-info">
+          <h1>
+            <span id="uiChannelName">Obbyrants30</span>
+            <span class="owner-chip hidden" id="ownerDeviceBadge">✓ Registered Owner Laptop</span>
+          </h1>
+          <div class="sub-badge" title="Updates automatically when the page opens">
+            <span class="sub-dot" id="liveSubDot"></span>
+            <span><strong id="uiSubCount">251</strong> Subscribers</span>
+            <span id="subSyncStatus" style="font-size:0.72rem; opacity:0.8;">• Live</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <a id="uiChannelLink" href="https://www.youtube.com/@obbyrants30" target="_blank" rel="noopener" class="btn btn-primary">
+          ▶ Visit Channel
+        </a>
+        <button type="button" class="btn" id="openAdminFlowBtn" onclick="handleAdminButtonClick()">🔒 Admin Panel</button>
+      </div>
+    </header>
+
+    <!-- HERO & ABOUT -->
+    <section class="hero" id="secAbout">
+      <div class="hero-tag" id="uiStatusTag">🔴 LIVE STATUS: RECORDING & EDITING</div>
+      <h2 id="uiHeroTitle">Welcome to the Official Obbyrants30 Hub!</h2>
+      <p id="uiAboutText">
+        Hey everyone! Welcome to the official hub for Obbyrants30. Catch live channel updates, drop video & game recommendations, suggest background songs for upcoming rants and gameplay videos, and hang out with the community.
+      </p>
+
+      <div class="milestone-box">
+        <div class="milestone-header">
+          <span>Road to <span id="uiGoalText">500</span> Subscribers</span>
+          <span id="uiGoalPercent">50.2%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="uiProgressFill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN FEATURE GRID -->
+    <div class="grid">
+      <!-- LIVE UPDATES -->
+      <section class="card" id="secUpdates">
+        <div class="card-title">
+          <span>📢 Live Channel Updates</span>
+          <span class="tag-pill">Official</span>
+        </div>
+        <div class="form-row hidden" id="ownerUpdateBox">
+          <input type="text" id="updateInput" placeholder="Post an official channel update..." />
+          <button type="button" class="btn btn-primary" onclick="addUpdate()">Post</button>
+        </div>
+        <div class="feed-list" id="updatesList"></div>
+      </section>
+
+      <!-- VIDEO & GAME RECOMMENDATIONS -->
+      <section class="card" id="secRecs">
+        <div class="card-title">
+          <span>🎮 Video & Game Ideas</span>
+          <span class="tag-pill">Vote</span>
+        </div>
+        <div class="form-row">
+          <select id="recCategory" style="max-width: 115px;">
+            <option value="Rant Topic">Rant</option>
+            <option value="Roblox Game">Roblox</option>
+            <option value="Challenge">Challenge</option>
+          </select>
+          <input type="text" id="recInput" placeholder="Suggest a game or rant..." />
+          <button type="button" class="btn btn-primary" onclick="addRec()">Add</button>
+        </div>
+        <div class="item-list" id="recsList"></div>
+      </section>
+
+      <!-- SONG IDEAS -->
+      <section class="card" id="secSongs">
+        <div class="card-title">
+          <span>🎵 Video Song Ideas</span>
+          <span class="tag-pill">Soundtrack</span>
+        </div>
+        <div class="form-row">
+          <input type="text" id="songTitleInput" placeholder="Song name & artist..." />
+          <select id="songVibeInput" style="max-width: 110px;">
+            <option value="Chill / Lo-Fi">Chill</option>
+            <option value="Hype / Fast">Hype</option>
+            <option value="Meme / Funny">Meme</option>
+            <option value="Intense">Intense</option>
+          </select>
+          <button type="button" class="btn btn-primary" onclick="addSong()">Add</button>
+        </div>
+        <div class="item-list" id="songsList"></div>
+      </section>
+
+      <!-- COMMUNITY COMMENTS -->
+      <section class="card" id="secComments">
+        <div class="card-title">
+          <span>💬 Community Wall</span>
+          <span class="tag-pill" id="commentCountBadge">0</span>
+        </div>
+        <div class="form-row">
+          <input type="text" id="commentUser" placeholder="Your name" style="max-width: 115px;" />
+          <input type="text" id="commentText" placeholder="Leave a comment..." />
+          <button type="button" class="btn btn-primary" onclick="addComment()">Send</button>
+        </div>
+        <div class="item-list" id="commentsList"></div>
+      </section>
+    </div>
+
+    <footer>
+      Built for <strong id="footerName">Obbyrants30</strong> • Hosted on GitHub Pages • Auto-syncing subscribers.
+    </footer>
+  </div>
+
+  <!-- STEP-BY-STEP ADMIN SECURITY GATE MODAL -->
+  <div class="modal-backdrop" id="authGateModal">
+    <div class="modal auth-box">
+      <div id="gateStep1">
+        <div class="auth-icon">🛡️</div>
+        <h3>Admin Panel Access</h3>
+        <p>This device is not registered yet.<br><strong>Are you the owner trying to register this device?</strong></p>
+        <div style="display:flex; gap:12px; justify-content:center;">
+          <button type="button" class="btn btn-primary" onclick="handleOwnerChoice(true)">Yes, I'm the Owner</button>
+          <button type="button" class="btn btn-danger" onclick="handleOwnerChoice(false)">No</button>
+        </div>
+        <div class="error-msg" id="step1Error"></div>
+      </div>
+
+      <div id="gateStep2" class="hidden">
+        <div class="auth-icon">💻</div>
+        <h3>Register Main Device</h3>
+        <p>Enter the <strong>Device Registering Key</strong> to bind this laptop as the main owner device:</p>
+        <input type="password" id="deviceKeyInput" placeholder="Enter Device Key..." style="margin-bottom:12px; text-align:center;" />
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button type="button" class="btn" onclick="closeAuthGate()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="verifyDeviceKey()">Register Device</button>
+        </div>
+        <div class="error-msg" id="step2Error"></div>
+      </div>
+
+      <div id="gateStep3" class="hidden">
+        <div class="auth-icon">🔑</div>
+        <h3>Main Admin Password</h3>
+        <p>Device verified! Enter your <strong>Main Admin Password</strong> to unlock customization controls:</p>
+        <input type="password" id="masterPassInput" placeholder="Enter Admin Password..." style="margin-bottom:12px; text-align:center;" />
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button type="button" class="btn" onclick="closeAuthGate()">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="verifyMasterPassword()">Unlock Admin Panel</button>
+        </div>
+        <div class="error-msg" id="step3Error"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UPGRADED TABBED ADMIN PANEL MODAL -->
+  <div class="modal-backdrop" id="adminPanelModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>👑 Owner Admin Control Center</h3>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-sm" onclick="lockAdminSession()">Lock</button>
+          <button type="button" class="btn btn-sm" onclick="closeAdminPanel()">✕ Close</button>
+        </div>
+      </div>
+
+      <!-- Quick Overview Strip -->
+      <div class="admin-stats-strip">
+        <div class="stat-mini">
+          <strong id="adminStatSubs">251</strong>
+          <span>Subscribers</span>
+        </div>
+        <div class="stat-mini">
+          <strong id="adminStatUpdates">0</strong>
+          <span>Live Updates</span>
+        </div>
+        <div class="stat-mini">
+          <strong id="adminStatIdeas">0</strong>
+          <span>Ideas & Songs</span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs" role="tablist">
+        <button type="button" class="tab-btn active" id="tabBtnChannel" onclick="switchAdminTab('channel')">📺 Channel & Subs</button>
+        <button type="button" class="tab-btn" id="tabBtnTheme" onclick="switchAdminTab('theme')">🎨 Theme & Layout</button>
+        <button type="button" class="tab-btn" id="tabBtnContent" onclick="switchAdminTab('content')">📢 Updates & Posts</button>
+        <button type="button" class="tab-btn" id="tabBtnSecurity" onclick="switchAdminTab('security')">🔐 Security & GitHub</button>
+      </div>
+
+      <!-- TAB 1: CHANNEL & SUBSCRIBERS -->
+      <div id="adminTabChannel">
+        <div class="setting-group">
+          <h4>Subscriber Auto-Sync</h4>
+          <div class="setting-row">
+            <label>YouTube Handle (for Auto-Sync)</label>
+            <input type="text" id="setYtHandle" placeholder="@obbyrants30" />
+          </div>
+          <div class="setting-row">
+            <label>Auto-Fetch Subs on Page Load</label>
+            <input type="checkbox" id="setAutoSync" />
+          </div>
+          <div class="setting-row">
+            <label>Fallback / Manual Sub Count</label>
+            <input type="number" id="setSubCount" />
+          </div>
+          <div class="setting-row">
+            <label>Next Subscriber Goal</label>
+            <input type="number" id="setSubGoal" />
+          </div>
+          <button type="button" class="btn" style="width:100%; justify-content:center; margin-top:6px;" onclick="fetchLiveSubscribers(true)">
+            🔄 Sync Live Subscriber Count Now
+          </button>
+        </div>
+
+        <div class="setting-group">
+          <h4>Channel Identity & Banner</h4>
+          <div class="setting-row">
+            <label>Channel Display Name</label>
+            <input type="text" id="setChannelName" />
+          </div>
+          <div class="setting-row">
+            <label>Avatar Badge Text (max 4 chars)</label>
+            <input type="text" id="setAvatarText" maxlength="4" />
+          </div>
+          <div class="setting-row">
+            <label>YouTube Channel URL</label>
+            <input type="text" id="setChannelUrl" />
+          </div>
+          <div class="setting-row">
+            <label>Live Status Tag</label>
+            <input type="text" id="setStatusTag" />
+          </div>
+          <div class="setting-row">
+            <label>Welcome Headline</label>
+            <input type="text" id="setHeroTitle" />
+          </div>
+          <div style="margin-top: 8px;">
+            <label style="font-size: 0.9rem; display:block; margin-bottom:6px;">About Description</label>
+            <textarea id="setAboutText" rows="3"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: THEME & LAYOUT -->
+      <div id="adminTabTheme" class="hidden">
+        <div class="setting-group">
+          <h4>Appearance & Style</h4>
+          <div class="setting-row">
+            <label>Theme Preset</label>
+            <select id="setThemePreset">
+              <option value="dark">Midnight Dark</option>
+              <option value="amoled">Pure AMOLED Black</option>
+              <option value="cyber">Cyber Slate</option>
+              <option value="light">Clean Light Mode</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>Accent Color</label>
+            <input type="color" id="setAccentColor" />
+          </div>
+          <div class="setting-row">
+            <label>Font Style</label>
+            <select id="setFontFamily">
+              <option value="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Modern Sans</option>
+              <option value="'Courier New', Courier, monospace">Retro Monospace</option>
+              <option value="Georgia, serif">Editorial Serif</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <label>Corner Roundness (px)</label>
+            <input type="number" id="setRadius" min="0" max="30" />
+          </div>
+          <div class="setting-row">
+            <label>Show Background Grid</label>
+            <input type="checkbox" id="setBgGrid" />
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h4>Visible Sections</h4>
+          <div class="setting-row">
+            <label>Show About & Milestone Banner</label>
+            <input type="checkbox" id="togAbout" />
+          </div>
+          <div class="setting-row">
+            <label>Show Live Channel Updates</label>
+            <input type="checkbox" id="togUpdates" />
+          </div>
+          <div class="setting-row">
+            <label>Show Video & Game Recommendations</label>
+            <input type="checkbox" id="togRecs" />
+          </div>
+          <div class="setting-row">
+            <label>Show Song Ideas</label>
+            <input type="checkbox" id="togSongs" />
+          </div>
+          <div class="setting-row">
+            <label>Show Community Comments</label>
+            <input type="checkbox" id="togComments" />
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: UPDATES & POSTS MANAGER -->
+      <div id="adminTabContent" class="hidden">
+        <div class="setting-group">
+          <h4>Post Official Live Update</h4>
+          <div class="form-row">
+            <input type="text" id="adminQuickUpdateInput" placeholder="Write a live announcement for visitors..." />
+            <button type="button" class="btn btn-primary" onclick="addAdminQuickUpdate()">Publish</button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h4>Manage Live Updates</h4>
+          <div id="adminUpdatesManager"></div>
+        </div>
+
+        <div class="setting-group">
+          <h4>Clear Community Lists</h4>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-sm btn-danger" onclick="clearCommunitySection('recs')">Clear Game/Rant Ideas</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="clearCommunitySection('songs')">Clear Song Ideas</button>
+            <button type="button" class="btn btn-sm btn-danger" onclick="clearCommunitySection('comments')">Clear Comments</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: SECURITY & GITHUB EXPORT -->
+      <div id="adminTabSecurity" class="hidden">
+        <div class="gh-box">
+          <strong>🚀 GitHub Pages Workflow:</strong> Edit settings or post updates, click <strong>Apply Changes</strong>, then click <strong>Export Updated index.html</strong> to download a file with your changes baked in for your GitHub repository.
+        </div>
+
+        <div class="setting-group">
+          <h4>Device Key & Admin Password</h4>
+          <div class="setting-row">
+            <label>Device Registering Key</label>
+            <input type="text" id="setDeviceKey" />
+          </div>
+          <div class="setting-row">
+            <label>Main Admin Password</label>
+            <input type="text" id="setAdminPass" />
+          </div>
+          <div class="setting-row">
+            <label>Laptop Registration Status</label>
+            <button type="button" class="btn btn-danger" onclick="unregisterDevice()">Unregister This Laptop</button>
+          </div>
+        </div>
+
+        <div class="setting-group">
+          <h4>Backup & Restore JSON</h4>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-sm" onclick="exportStateJSON()">Download JSON Backup</button>
+            <button type="button" class="btn btn-sm" onclick="importStateJSON()">Restore From JSON</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="admin-footer-bar">
+        <button type="button" class="btn btn-success" onclick="exportUpdatedHTML()">⬇️ Export Updated index.html</button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <button type="button" class="btn" onclick="resetAllData()" style="color: #f87171;">Reset</button>
+          <button type="button" class="btn btn-primary" onclick="saveSettings()">Save & Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script id="appStateBlock">
+    // /*STATE_START*/
+    const DEFAULT_STATE = {
+      "security": {
+        "deviceKey": "OBBY-LAPTOP-2026",
+        "adminPassword": "RantsMaster#30"
+      },
+      "settings": {
+        "ytHandle": "@obbyrants30",
+        "autoSyncSubs": true,
+        "channelName": "Obbyrants30",
+        "avatarText": "O30",
+        "subCount": 251,
+        "subGoal": 500,
+        "channelUrl": "https://www.youtube.com/@obbyrants30",
+        "statusTag": "🔴 LIVE STATUS: RECORDING & EDITING",
+        "heroTitle": "Welcome to the Official Obbyrants30 Hub!",
+        "aboutText": "Hey everyone! Welcome to the official hub for Obbyrants30. Catch live channel updates, drop video & game recommendations, suggest background songs for upcoming rants and gameplay videos, and hang out with the community.",
+        "themePreset": "dark",
+        "accentColor": "#ef4444",
+        "fontFamily": "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
+        "radius": 14,
+        "bgGrid": true,
+        "showAbout": true,
+        "showUpdates": true,
+        "showRecs": true,
+        "showSongs": true,
+        "showComments": true
+      },
+      "updates": [
+        { "text": "We just hit 251 subscribers!! Thank you all so much for the support 🔥", "time": "Today" },
+        { "text": "Working on a brand new rant video — drop your background song ideas below!", "time": "Yesterday" }
+      ],
+      "recs": [
+        { "category": "Rant Topic", "text": "Why modern obbies are all copy-paste", "votes": 14 },
+        { "category": "Roblox Game", "text": "Play Rivals 1v1s with subscribers", "votes": 9 }
+      ],
+      "songs": [
+        { "title": "Sneaky Snitch - Kevin MacLeod", "vibe": "Meme / Funny", "votes": 11 },
+        { "title": "Synthwave Chill Beat", "vibe": "Chill / Lo-Fi", "votes": 7 }
+      ],
+      "comments": [
+        { "user": "Alex_RBX", "text": "Congrats on 251 subs! Road to 500 lets gooo", "time": "2h ago" },
+        { "user": "GamerKid99", "text": "Can't wait for the next upload!", "time": "5h ago" }
+      ]
+    };
+    // /*STATE_END*/
+  </script>
+
+  <script>
+    const THEMES = {
+      dark:   { bg: "#0b0e14", surface: "#141923", surface2: "#1c2333", border: "#2a3449", text: "#f1f5f9", muted: "#94a3b8" },
+      amoled: { bg: "#000000", surface: "#0a0a0a", surface2: "#141414", border: "#262626", text: "#ffffff", muted: "#a3a3a3" },
+      cyber:  { bg: "#090d16", surface: "#111827", surface2: "#1e293b", border: "#334155", text: "#e2e8f0", muted: "#94a3b8" },
+      light:  { bg: "#f1f5f9", surface: "#ffffff", surface2: "#f8fafc", border: "#cbd5e1", text: "#0f172a", muted: "#475569" }
+    };
+
+    const STORAGE_KEY = "obbyrants30_hub_gh_v2";
+    const DEVICE_REG_KEY = "obbyrants30_registered_laptop_token";
+
+    let memoryFallbackState = null;
+
+    function showStatusMessage(msg) {
+      const banner = document.getElementById("statusBanner");
+      const text = document.getElementById("statusBannerText");
+      if (banner && text) {
+        text.textContent = msg;
+        banner.classList.add("visible");
+      } else {
+        alert(msg);
+      }
+    }
+
+    function hideStatusMessage() {
+      const banner = document.getElementById("statusBanner");
+      if (banner) banner.classList.remove("visible");
+    }
+
+    function cloneDefaultState() {
+      if (typeof structuredClone === "function") {
+        return structuredClone(DEFAULT_STATE);
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function readStorageItem(key) {
+      try {
+        return window.localStorage.getItem(key);
+      } catch (err) {
+        showStatusMessage("Browser storage is restricted; using temporary session state. Error: " + err.message);
+        return null;
+      }
+    }
+
+    function writeStorageItem(key, value) {
+      try {
+        window.localStorage.setItem(key, value);
+        return true;
+      } catch (err) {
+        showStatusMessage("Could not save changes to browser storage: " + err.message);
+        return false;
+      }
+    }
+
+    function removeStorageItem(key) {
+      try {
+        window.localStorage.removeItem(key);
+      } catch (err) {
+        showStatusMessage("Could not clear browser storage: " + err.message);
+      }
+    }
+
+    function loadInitialState() {
+      const saved = readStorageItem(STORAGE_KEY);
+      if (!saved) return cloneDefaultState();
+      try {
+        return JSON.parse(saved);
+      } catch (err) {
+        showStatusMessage("Saved state was corrupted and reset to defaults. Error: " + err.message);
+        return cloneDefaultState();
+      }
+    }
+
+    let appState = loadInitialState();
+    let adminSessionUnlocked = false;
+    let activeAdminTab = "channel";
+
+    function persist() {
+      memoryFallbackState = appState;
+      writeStorageItem(STORAGE_KEY, JSON.stringify(appState));
+      refreshAdminStats();
+    }
+
+    function isDeviceRegistered() {
+      if (readStorageItem(DEVICE_REG_KEY) === "REGISTERED_OWNER_LAPTOP") {
+        return true;
+      }
+      return Boolean(memoryFallbackState && memoryFallbackState._tempRegistered);
+    }
+
+    function setDeviceRegistered(registered) {
+      if (registered) {
+        const saved = writeStorageItem(DEVICE_REG_KEY, "REGISTERED_OWNER_LAPTOP");
+        if (!saved) {
+          appState._tempRegistered = true;
+          memoryFallbackState = appState;
+        }
+      } else {
+        removeStorageItem(DEVICE_REG_KEY);
+        delete appState._tempRegistered;
+      }
+    }
+
+    // ==========================================
+    // AUTOMATIC LIVE SUBSCRIBER COUNT UPDATER
+    // ==========================================
+    async function fetchLiveSubscribers(manualTrigger = false) {
+      if (!appState.settings.autoSyncSubs && !manualTrigger) return;
+
+      const dot = document.getElementById("liveSubDot");
+      const statusTxt = document.getElementById("subSyncStatus");
+      const handle = (appState.settings.ytHandle || "@obbyrants30").replace(/^@/, "");
+
+      if (dot) dot.classList.add("syncing");
+      if (statusTxt) statusTxt.textContent = "• Syncing...";
+
+      try {
+        const targetUrl = encodeURIComponent(`https://www.youtube.com/@${handle}`);
+        const res = await fetch(`https://api.allorigins.win/get?url=${targetUrl}`);
+        if (!res.ok) throw new Error("Network error");
+
+        const data = await res.json();
+        const html = data.contents || "";
+
+        const match = html.match(/"subscriberCountText":\{"simpleText":"([\d.,]+[KMB]?)\s*subscribers?"/i)
+                   || html.match(/([\d.,]+[KMB]?)\s*subscribers/i);
+
+        if (match && match[1]) {
+          const parsedCount = parseSubString(match[1]);
+          if (parsedCount > 0) {
+            appState.settings.subCount = parsedCount;
+            const subInput = document.getElementById("setSubCount");
+            if (subInput) subInput.value = parsedCount;
+            persist();
+            updateSubDisplayOnly();
+            if (statusTxt) statusTxt.textContent = "• Live Synced";
+            if (manualTrigger) showStatusMessage(`Synced! Live subscriber count for @${handle}: ${parsedCount.toLocaleString()}`);
+          } else if (statusTxt) {
+            statusTxt.textContent = "• Live";
+          }
+        } else {
+          if (statusTxt) statusTxt.textContent = "• Live";
+          if (manualTrigger) showStatusMessage("Could not parse live count right now. Keeping saved count: " + appState.settings.subCount);
+        }
+      } catch (err) {
+        if (statusTxt) statusTxt.textContent = "• Cached";
+        if (manualTrigger) showStatusMessage("Subscriber sync failed (" + err.message + "). Keeping saved count: " + appState.settings.subCount);
+      } finally {
+        if (dot) dot.classList.remove("syncing");
+      }
+    }
+
+    function parseSubString(str) {
+      const clean = str.replace(/,/g, "").trim().toUpperCase();
+      if (clean.endsWith("K")) return Math.round(parseFloat(clean) * 1000);
+      if (clean.endsWith("M")) return Math.round(parseFloat(clean) * 1000000);
+      return parseInt(clean, 10) || 0;
+    }
+
+    function updateSubDisplayOnly() {
+      const s = appState.settings;
+      document.getElementById("uiSubCount").textContent = Number(s.subCount).toLocaleString();
+      const goal = Math.max(1, Number(s.subGoal));
+      const pct = Math.min(100, ((Number(s.subCount) / goal) * 100)).toFixed(1);
+      document.getElementById("uiGoalText").textContent = goal.toLocaleString();
+      document.getElementById("uiGoalPercent").textContent = pct + "%";
+      document.getElementById("uiProgressFill").style.width = pct + "%";
+      refreshAdminStats();
+    }
+
+    // ==========================================
+    // DIRECT ADMIN BUTTON & MODAL FLOW
+    // ==========================================
+    function handleAdminButtonClick() {
+      try {
+        hideStatusMessage();
+        const step1Err = document.getElementById("step1Error");
+        const step2Err = document.getElementById("step2Error");
+        const step3Err = document.getElementById("step3Error");
+        const devInput = document.getElementById("deviceKeyInput");
+        const passInput = document.getElementById("masterPassInput");
+        const gateModal = document.getElementById("authGateModal");
+
+        if (!gateModal) {
+          throw new Error("Admin modal element (#authGateModal) is missing from the page.");
+        }
+
+        if (step1Err) step1Err.textContent = "";
+        if (step2Err) step2Err.textContent = "";
+        if (step3Err) step3Err.textContent = "";
+        if (devInput) devInput.value = "";
+        if (passInput) passInput.value = "";
+
+        if (adminSessionUnlocked && isDeviceRegistered()) {
+          openAdminPanel();
+          return;
+        }
+
+        gateModal.classList.add("open");
+
+        if (isDeviceRegistered()) {
+          showGateStep(3);
+          if (passInput) passInput.focus();
+        } else {
+          showGateStep(1);
+        }
+      } catch (err) {
+        showStatusMessage("Admin Panel failed to open: " + err.message);
+        const key = window.prompt("Admin Panel modal failed (" + err.message + "). Enter Device Key or Main Admin Password:");
+        if (key === appState.security.adminPassword) {
+          adminSessionUnlocked = true;
+          openAdminPanel();
+        } else if (key === appState.security.deviceKey) {
+          setDeviceRegistered(true);
+          applyUI();
+          showStatusMessage("Device registered. Click Admin Panel again to enter your Main Admin Password.");
+        } else if (key !== null) {
+          showStatusMessage("Admin unlock cancelled or invalid key.");
+        }
+      }
+    }
+
+    function showGateStep(stepNum) {
+      document.getElementById("gateStep1").classList.toggle("hidden", stepNum !== 1);
+      document.getElementById("gateStep2").classList.toggle("hidden", stepNum !== 2);
+      document.getElementById("gateStep3").classList.toggle("hidden", stepNum !== 3);
+    }
+
+    function handleOwnerChoice(isOwner) {
+      if (!isOwner) {
+        document.getElementById("step1Error").textContent = "Access Denied. Only the channel owner can register a device.";
+        setTimeout(() => closeAuthGate(), 1400);
+      } else {
+        showGateStep(2);
+        document.getElementById("deviceKeyInput").focus();
+      }
+    }
+
+    function verifyDeviceKey() {
+      const entered = document.getElementById("deviceKeyInput").value.trim();
+      if (entered === appState.security.deviceKey) {
+        setDeviceRegistered(true);
+        applyUI();
+        showGateStep(3);
+        document.getElementById("masterPassInput").focus();
+      } else {
+        document.getElementById("step2Error").textContent = "❌ Invalid Device Registering Key.";
+      }
+    }
+
+    function verifyMasterPassword() {
+      const entered = document.getElementById("masterPassInput").value.trim();
+      if (entered === appState.security.adminPassword) {
+        adminSessionUnlocked = true;
+        closeAuthGate();
+        openAdminPanel();
+      } else {
+        document.getElementById("step3Error").textContent = "❌ Incorrect Main Admin Password.";
+      }
+    }
+
+    function closeAuthGate() {
+      const gateModal = document.getElementById("authGateModal");
+      if (gateModal) gateModal.classList.remove("open");
+    }
+
+    function lockAdminSession() {
+      adminSessionUnlocked = false;
+      closeAdminPanel();
+      showStatusMessage("Admin session locked.");
+    }
+
+    function unregisterDevice() {
+      if (confirm("Unregister this laptop? You will need the Device Registering Key again to re-register it.")) {
+        setDeviceRegistered(false);
+        adminSessionUnlocked = false;
+        closeAdminPanel();
+        applyUI();
+      }
+    }
+
+    // ==========================================
+    // UPGRADED ADMIN PANEL CONTROLS
+    // ==========================================
+    function switchAdminTab(tabName) {
+      activeAdminTab = tabName;
+      const tabs = ["channel", "theme", "content", "security"];
+      tabs.forEach(t => {
+        const cap = t.charAt(0).toUpperCase() + t.slice(1);
+        const pane = document.getElementById("adminTab" + cap);
+        const btn = document.getElementById("tabBtn" + cap);
+        if (pane) pane.classList.toggle("hidden", t !== tabName);
+        if (btn) btn.classList.toggle("active", t === tabName);
+      });
+      if (tabName === "content") {
+        renderAdminUpdatesManager();
+      }
+    }
+
+    function refreshAdminStats() {
+      const subEl = document.getElementById("adminStatSubs");
+      const updEl = document.getElementById("adminStatUpdates");
+      const ideaEl = document.getElementById("adminStatIdeas");
+      if (subEl) subEl.textContent = Number(appState.settings.subCount || 0).toLocaleString();
+      if (updEl) updEl.textContent = (appState.updates || []).length;
+      if (ideaEl) ideaEl.textContent = (appState.recs || []).length + (appState.songs || []).length;
+    }
+
+    function openAdminPanel() {
+      try {
+        const panelModal = document.getElementById("adminPanelModal");
+        if (!panelModal) throw new Error("Admin Panel modal (#adminPanelModal) not found.");
+
+        const s = appState.settings;
+        document.getElementById("setYtHandle").value = s.ytHandle;
+        document.getElementById("setAutoSync").checked = s.autoSyncSubs;
+        document.getElementById("setSubCount").value = s.subCount;
+        document.getElementById("setSubGoal").value = s.subGoal;
+        document.getElementById("setChannelName").value = s.channelName;
+        document.getElementById("setAvatarText").value = s.avatarText;
+        document.getElementById("setChannelUrl").value = s.channelUrl;
+        document.getElementById("setStatusTag").value = s.statusTag;
+        document.getElementById("setHeroTitle").value = s.heroTitle;
+        document.getElementById("setAboutText").value = s.aboutText;
+        document.getElementById("setThemePreset").value = s.themePreset;
+        document.getElementById("setAccentColor").value = s.accentColor;
+        document.getElementById("setFontFamily").value = s.fontFamily;
+        document.getElementById("setRadius").value = s.radius;
+        document.getElementById("setBgGrid").checked = s.bgGrid;
+        document.getElementById("togAbout").checked = s.showAbout;
+        document.getElementById("togUpdates").checked = s.showUpdates;
+        document.getElementById("togRecs").checked = s.showRecs;
+        document.getElementById("togSongs").checked = s.showSongs;
+        document.getElementById("togComments").checked = s.showComments;
+        document.getElementById("setDeviceKey").value = appState.security.deviceKey;
+        document.getElementById("setAdminPass").value = appState.security.adminPassword;
+
+        refreshAdminStats();
+        switchAdminTab(activeAdminTab);
+        panelModal.classList.add("open");
+      } catch (err) {
+        showStatusMessage("Could not open Owner Admin Panel: " + err.message);
+      }
+    }
+
+    function closeAdminPanel() {
+      const panelModal = document.getElementById("adminPanelModal");
+      if (panelModal) panelModal.classList.remove("open");
+    }
+
+    function saveSettings() {
+      try {
+        const s = appState.settings;
+        s.ytHandle = document.getElementById("setYtHandle").value.trim() || "@obbyrants30";
+        s.autoSyncSubs = document.getElementById("setAutoSync").checked;
+        s.subCount = Number(document.getElementById("setSubCount").value) || 0;
+        s.subGoal = Number(document.getElementById("setSubGoal").value) || 500;
+        s.channelName = document.getElementById("setChannelName").value.trim() || "Obbyrants30";
+        s.avatarText = document.getElementById("setAvatarText").value.trim() || "O30";
+        s.channelUrl = document.getElementById("setChannelUrl").value.trim() || "#";
+        s.statusTag = document.getElementById("setStatusTag").value.trim();
+        s.heroTitle = document.getElementById("setHeroTitle").value.trim();
+        s.aboutText = document.getElementById("setAboutText").value.trim();
+        s.themePreset = document.getElementById("setThemePreset").value;
+        s.accentColor = document.getElementById("setAccentColor").value;
+        s.fontFamily = document.getElementById("setFontFamily").value;
+        s.radius = Number(document.getElementById("setRadius").value);
+        s.bgGrid = document.getElementById("setBgGrid").checked;
+        s.showAbout = document.getElementById("togAbout").checked;
+        s.showUpdates = document.getElementById("togUpdates").checked;
+        s.showRecs = document.getElementById("togRecs").checked;
+        s.showSongs = document.getElementById("togSongs").checked;
+        s.showComments = document.getElementById("togComments").checked;
+
+        const newDevKey = document.getElementById("setDeviceKey").value.trim();
+        const newAdminPass = document.getElementById("setAdminPass").value.trim();
+        if (newDevKey) appState.security.deviceKey = newDevKey;
+        if (newAdminPass) appState.security.adminPassword = newAdminPass;
+
+        persist();
+        applyUI();
+        closeAdminPanel();
+      } catch (err) {
+        showStatusMessage("Failed to save settings: " + err.message);
+      }
+    }
+
+    function addAdminQuickUpdate() {
+      const input = document.getElementById("adminQuickUpdateInput");
+      if (!input || !input.value.trim()) return;
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      appState.updates.unshift({ text: input.value.trim(), time: `Today, ${now}` });
+      input.value = "";
+      persist();
+      renderLists();
+      renderAdminUpdatesManager();
+    }
+
+    function deleteAdminUpdate(idx) {
+      appState.updates.splice(idx, 1);
+      persist();
+      renderLists();
+      renderAdminUpdatesManager();
+    }
+
+    function renderAdminUpdatesManager() {
+      const box = document.getElementById("adminUpdatesManager");
+      if (!box) return;
+      if (!appState.updates.length) {
+        box.innerHTML = `<p style="color:var(--muted); font-size:0.85rem;">No live updates posted yet.</p>`;
+        return;
+      }
+      box.innerHTML = appState.updates.map((u, idx) => `
+        <div class="manage-item">
+          <div>
+            <div>${escapeHTML(u.text)}</div>
+            <small style="color:var(--muted);">${escapeHTML(u.time)}</small>
+          </div>
+          <button type="button" class="btn btn-sm btn-danger" onclick="deleteAdminUpdate(${idx})">Delete</button>
+        </div>
+      `).join("");
+    }
+
+    function clearCommunitySection(key) {
+      if (!Array.isArray(appState[key])) return;
+      if (confirm(`Clear all items in "${key}"?`)) {
+        appState[key] = [];
+        persist();
+        renderLists();
+      }
+    }
+
+    function exportStateJSON() {
+      try {
+        const cleanState = cloneDefaultState();
+        Object.assign(cleanState, appState);
+        delete cleanState._tempRegistered;
+        const blob = new Blob([JSON.stringify(cleanState, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "obbyrants30-hub-backup.json";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      } catch (err) {
+        showStatusMessage("JSON export failed: " + err.message);
+      }
+    }
+
+    function importStateJSON() {
+      const raw = window.prompt("Paste your saved JSON hub backup below:");
+      if (!raw) return;
+      try {
+        const parsed = JSON.parse(raw);
+        if (!parsed.settings || !parsed.security) {
+          throw new Error("JSON is missing required settings/security keys.");
+        }
+        appState = parsed;
+        persist();
+        applyUI();
+        openAdminPanel();
+        showStatusMessage("JSON backup restored successfully.");
+      } catch (err) {
+        showStatusMessage("Invalid JSON backup: " + err.message);
+      }
+    }
+
+    function exportUpdatedHTML() {
+      try {
+        saveSettings();
+        const cleanState = cloneDefaultState();
+        Object.assign(cleanState, appState);
+        delete cleanState._tempRegistered;
+
+        let fullDoc = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+        const stateBlockRegex = /\/\/ \/\*STATE_START\*\/[\s\S]*?\/\/ \/\*STATE_END\*\//;
+        const replacement = `// /*STATE_START*/\n    const DEFAULT_STATE = ${JSON.stringify(cleanState, null, 2)};\n    // /*STATE_END*/`;
+        fullDoc = fullDoc.replace(stateBlockRegex, replacement);
+
+        const blob = new Blob([fullDoc], { type: "text/html" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "index.html";
+        a.click();
+        URL.revokeObjectURL(a.href);
+      } catch (err) {
+        showStatusMessage("Export failed: " + err.message);
+      }
+    }
+
+    function applyUI() {
+      const s = appState.settings;
+      const t = THEMES[s.themePreset] || THEMES.dark;
+      const root = document.documentElement;
+
+      root.style.setProperty("--bg", t.bg);
+      root.style.setProperty("--surface", t.surface);
+      root.style.setProperty("--surface-2", t.surface2);
+      root.style.setProperty("--border", t.border);
+      root.style.setProperty("--text", t.text);
+      root.style.setProperty("--muted", t.muted);
+      root.style.setProperty("--accent", s.accentColor);
+      root.style.setProperty("--accent-glow", s.accentColor + "40");
+      root.style.setProperty("--radius", s.radius + "px");
+      root.style.setProperty("--font", s.fontFamily);
+
+      document.body.classList.toggle("bg-grid", s.bgGrid);
+
+      const registered = isDeviceRegistered();
+      document.getElementById("ownerDeviceBadge").classList.toggle("hidden", !registered);
+      document.getElementById("ownerUpdateBox").classList.toggle("hidden", !registered);
+
+      document.title = `${s.channelName} — Official Channel Hub`;
+      document.getElementById("uiChannelName").textContent = s.channelName;
+      document.getElementById("footerName").textContent = s.channelName;
+      document.getElementById("uiAvatar").textContent = s.avatarText;
+      document.getElementById("uiChannelLink").href = s.channelUrl;
+      document.getElementById("uiStatusTag").textContent = s.statusTag;
+      document.getElementById("uiHeroTitle").textContent = s.heroTitle;
+      document.getElementById("uiAboutText").textContent = s.aboutText;
+
+      updateSubDisplayOnly();
+
+      document.getElementById("secAbout").classList.toggle("hidden", !s.showAbout);
+      document.getElementById("secUpdates").classList.toggle("hidden", !s.showUpdates);
+      document.getElementById("secRecs").classList.toggle("hidden", !s.showRecs);
+      document.getElementById("secSongs").classList.toggle("hidden", !s.showSongs);
+      document.getElementById("secComments").classList.toggle("hidden", !s.showComments);
+
+      renderLists();
+    }
+
+    function escapeHTML(str) {
+      const div = document.createElement("div");
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function renderLists() {
+      document.getElementById("updatesList").innerHTML = appState.updates.map(u => `
+        <div class="feed-item">
+          <div class="feed-meta">
+            <span>@${escapeHTML(appState.settings.channelName)}</span>
+            <span>${escapeHTML(u.time)}</span>
+          </div>
+          <div>${escapeHTML(u.text)}</div>
+        </div>
+      `).join("");
+
+      document.getElementById("recsList").innerHTML = appState.recs.map((r, i) => `
+        <div class="list-entry">
+          <div class="list-entry-header">
+            <span class="tag-pill">${escapeHTML(r.category)}</span>
+            <button type="button" class="upvote-btn" onclick="voteRec(${i})">▲ ${r.votes}</button>
+          </div>
+          <div>${escapeHTML(r.text)}</div>
+        </div>
+      `).join("");
+
+      document.getElementById("songsList").innerHTML = appState.songs.map((song, i) => `
+        <div class="list-entry">
+          <div class="list-entry-header">
+            <span class="tag-pill">${escapeHTML(song.vibe)}</span>
+            <button type="button" class="upvote-btn" onclick="voteSong(${i})">🔥 ${song.votes}</button>
+          </div>
+          <div>${escapeHTML(song.title)}</div>
+        </div>
+      `).join("");
+
+      document.getElementById("commentCountBadge").textContent = appState.comments.length;
+      document.getElementById("commentsList").innerHTML = appState.comments.map(c => `
+        <div class="list-entry">
+          <div class="list-entry-header">
+            <strong>${escapeHTML(c.user)}</strong>
+            <span>${escapeHTML(c.time)}</span>
+          </div>
+          <div>${escapeHTML(c.text)}</div>
+        </div>
+      `).join("");
+    }
+
+    function addUpdate() {
+      if (!isDeviceRegistered()) {
+        showStatusMessage("Only a registered owner device can post official channel updates.");
+        return;
+      }
+      const input = document.getElementById("updateInput");
+      if (!input.value.trim()) return;
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      appState.updates.unshift({ text: input.value.trim(), time: `Today, ${now}` });
+      input.value = "";
+      persist();
+      renderLists();
+    }
+
+    function addRec() {
+      const cat = document.getElementById("recCategory").value;
+      const input = document.getElementById("recInput");
+      if (!input.value.trim()) return;
+      appState.recs.unshift({ category: cat, text: input.value.trim(), votes: 1 });
+      input.value = "";
+      persist();
+      renderLists();
+    }
+
+    function voteRec(idx) {
+      appState.recs[idx].votes++;
+      persist();
+      renderLists();
+    }
+
+    function addSong() {
+      const title = document.getElementById("songTitleInput");
+      const vibe = document.getElementById("songVibeInput").value;
+      if (!title.value.trim()) return;
+      appState.songs.unshift({ title: title.value.trim(), vibe, votes: 1 });
+      title.value = "";
+      persist();
+      renderLists();
+    }
+
+    function voteSong(idx) {
+      appState.songs[idx].votes++;
+      persist();
+      renderLists();
+    }
+
+    function addComment() {
+      const user = document.getElementById("commentUser");
+      const text = document.getElementById("commentText");
+      if (!text.value.trim()) return;
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      appState.comments.unshift({
+        user: user.value.trim() || "Viewer",
+        text: text.value.trim(),
+        time: now
+      });
+      text.value = "";
+      persist();
+      renderLists();
+    }
+
+    function resetAllData() {
+      if (confirm("Reset local browser changes back to the GitHub file defaults?")) {
+        removeStorageItem(STORAGE_KEY);
+        appState = cloneDefaultState();
+        applyUI();
+        closeAdminPanel();
+      }
+    }
+
+    window.addEventListener("error", (event) => {
+      showStatusMessage("Script error: " + (event.message || "Unknown error"));
+    });
+
+    window.addEventListener("unhandledrejection", (event) => {
+      const reason = event.reason && event.reason.message ? event.reason.message : String(event.reason || "Async error");
+      showStatusMessage("Background task error: " + reason);
+    });
+
+    document.getElementById("deviceKeyInput").addEventListener("keydown", e => {
+      if (e.key === "Enter") verifyDeviceKey();
+    });
+    document.getElementById("masterPassInput").addEventListener("keydown", e => {
+      if (e.key === "Enter") verifyMasterPassword();
+    });
+
+    try {
+      applyUI();
+      fetchLiveSubscribers(false);
+    } catch (err) {
+      showStatusMessage("Startup error: " + err.message);
+    }
+  </script>
+</body>
+</html>
