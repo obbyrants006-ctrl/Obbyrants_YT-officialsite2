@@ -30,7 +30,7 @@
     }
 
     body.bg-grid {
-      background-image: 
+      background-image:
         linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
       background-size: 32px 32px;
@@ -42,7 +42,22 @@
       padding: 20px;
     }
 
-    /* Top Nav */
+    .status-banner {
+      display: none;
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid #ef4444;
+      background: rgba(239, 68, 68, 0.14);
+      color: #fecaca;
+      font-size: 0.9rem;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .status-banner.visible { display: flex; }
+
     header {
       display: flex;
       justify-content: space-between;
@@ -81,6 +96,7 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     .owner-chip {
@@ -114,9 +130,7 @@
       animation: pulse 1.8s infinite;
     }
 
-    .sub-dot.syncing {
-      background: #eab308;
-    }
+    .sub-dot.syncing { background: #eab308; }
 
     @keyframes pulse {
       0%, 100% { opacity: 1; transform: scale(1); }
@@ -158,13 +172,24 @@
       box-shadow: 0 4px 14px var(--accent-glow);
     }
 
+    .btn-success {
+      background: rgba(34, 197, 94, 0.16);
+      border-color: #22c55e;
+      color: #86efac;
+    }
+
     .btn-danger {
       background: rgba(239, 68, 68, 0.15);
       border-color: #ef4444;
       color: #fca5a5;
     }
 
-    /* Hero Banner */
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 0.78rem;
+      border-radius: 8px;
+    }
+
     .hero {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -227,7 +252,6 @@
       transition: width 0.4s ease;
     }
 
-    /* Grid Layout */
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
@@ -276,6 +300,8 @@
       margin-bottom: 4px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      gap: 8px;
     }
 
     input, textarea, select {
@@ -341,7 +367,6 @@
       color: var(--accent);
     }
 
-    /* Modals */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -353,16 +378,14 @@
       padding: 20px;
     }
 
-    .modal-backdrop.open {
-      display: grid;
-    }
+    .modal-backdrop.open { display: grid; }
 
     .modal {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       width: 100%;
-      max-width: 580px;
+      max-width: 640px;
       max-height: 88vh;
       overflow-y: auto;
       padding: 24px;
@@ -374,21 +397,9 @@
       text-align: center;
     }
 
-    .auth-icon {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .auth-box h3 {
-      margin-bottom: 8px;
-      font-size: 1.3rem;
-    }
-
-    .auth-box p {
-      color: var(--muted);
-      font-size: 0.92rem;
-      margin-bottom: 18px;
-    }
+    .auth-icon { font-size: 2.5rem; margin-bottom: 10px; }
+    .auth-box h3 { margin-bottom: 8px; font-size: 1.3rem; }
+    .auth-box p { color: var(--muted); font-size: 0.92rem; margin-bottom: 18px; }
 
     .error-msg {
       color: #f87171;
@@ -404,7 +415,59 @@
       align-items: center;
       border-bottom: 1px solid var(--border);
       padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
       margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+    }
+
+    .tab-btn {
+      padding: 7px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .admin-stats-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .stat-mini {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .stat-mini strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--text);
+    }
+
+    .stat-mini span {
+      font-size: 0.75rem;
+      color: var(--muted);
     }
 
     .setting-group {
@@ -429,423 +492,4 @@
       margin-bottom: 10px;
     }
 
-    .setting-row label {
-      font-size: 0.9rem;
-      color: var(--text);
-      flex: 1;
-    }
-
-    .setting-row input[type="text"],
-    .setting-row input[type="number"],
-    .setting-row input[type="password"],
-    .setting-row select {
-      max-width: 240px;
-    }
-
-    .setting-row input[type="color"] {
-      width: 50px;
-      height: 36px;
-      padding: 2px;
-      cursor: pointer;
-    }
-
-    .setting-row input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      padding: 20px 0;
-    }
-
-    .hidden { display: none !important; }
-  </style>
-</head>
-<body class="bg-grid">
-
-  <div class="container">
-    <!-- HEADER -->
-    <header>
-      <div class="brand">
-        <div class="avatar" id="uiAvatar">O30</div>
-        <div class="brand-info">
-          <h1>
-            <span id="uiChannelName">Obbyrants30</span>
-            <span class="owner-chip hidden" id="ownerDeviceBadge">✓ Registered Owner Laptop</span>
-          </h1>
-          <div class="sub-badge" title="Updates automatically when the page opens">
-            <span class="sub-dot" id="liveSubDot"></span>
-            <span><strong id="uiSubCount">251</strong> Subscribers</span>
-            <span id="subSyncStatus" style="font-size:0.72rem; opacity:0.8;">• Live</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="nav-actions">
-        <a id="uiChannelLink" href="https://www.youtube.com/@obbyrants30" target="_blank" rel="noopener" class="btn btn-primary">
-          ▶ Visit Channel
-        </a>
-        <button class="btn" id="openAdminFlowBtn">🔒 Admin Panel</button>
-      </div>
-    </header>
-
-    <!-- HERO & ABOUT -->
-    <section class="hero" id="secAbout">
-      <div class="hero-tag" id="uiStatusTag">🔴 LIVE STATUS: RECORDING & EDITING</div>
-      <h2 id="uiHeroTitle">Welcome to the Official Obbyrants30 Hub!</h2>
-      <p id="uiAboutText">
-        Hey everyone! Welcome to the official hub for Obbyrants30. Catch live channel updates, drop video & game recommendations, suggest background songs for upcoming rants and gameplay videos, and hang out with the community.
-      </p>
-
-      <div class="milestone-box">
-        <div class="milestone-header">
-          <span>Road to <span id="uiGoalText">500</span> Subscribers</span>
-          <span id="uiGoalPercent">50.2%</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="uiProgressFill"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- MAIN FEATURE GRID -->
-    <div class="grid">
-      <!-- LIVE UPDATES (Owner-only posting when registered, public reading) -->
-      <section class="card" id="secUpdates">
-        <div class="card-title">
-          <span>📢 Live Channel Updates</span>
-          <span class="tag-pill">Official</span>
-        </div>
-        <div class="form-row hidden" id="ownerUpdateBox">
-          <input type="text" id="updateInput" placeholder="Post an official channel update..." />
-          <button class="btn btn-primary" onclick="addUpdate()">Post</button>
-        </div>
-        <div class="feed-list" id="updatesList"></div>
-      </section>
-
-      <!-- VIDEO & GAME RECOMMENDATIONS -->
-      <section class="card" id="secRecs">
-        <div class="card-title">
-          <span>🎮 Video & Game Ideas</span>
-          <span class="tag-pill">Vote</span>
-        </div>
-        <div class="form-row">
-          <select id="recCategory" style="max-width: 115px;">
-            <option value="Rant Topic">Rant</option>
-            <option value="Roblox Game">Roblox</option>
-            <option value="Challenge">Challenge</option>
-          </select>
-          <input type="text" id="recInput" placeholder="Suggest a game or rant..." />
-          <button class="btn btn-primary" onclick="addRec()">Add</button>
-        </div>
-        <div class="item-list" id="recsList"></div>
-      </section>
-
-      <!-- SONG IDEAS -->
-      <section class="card" id="secSongs">
-        <div class="card-title">
-          <span>🎵 Video Song Ideas</span>
-          <span class="tag-pill">Soundtrack</span>
-        </div>
-        <div class="form-row">
-          <input type="text" id="songTitleInput" placeholder="Song name & artist..." />
-          <select id="songVibeInput" style="max-width: 110px;">
-            <option value="Chill / Lo-Fi">Chill</option>
-            <option value="Hype / Fast">Hype</option>
-            <option value="Meme / Funny">Meme</option>
-            <option value="Intense">Intense</option>
-          </select>
-          <button class="btn btn-primary" onclick="addSong()">Add</button>
-        </div>
-        <div class="item-list" id="songsList"></div>
-      </section>
-
-      <!-- COMMUNITY COMMENTS -->
-      <section class="card" id="secComments">
-        <div class="card-title">
-          <span>💬 Community Wall</span>
-          <span class="tag-pill" id="commentCountBadge">0</span>
-        </div>
-        <div class="form-row">
-          <input type="text" id="commentUser" placeholder="Your name" style="max-width: 115px;" />
-          <input type="text" id="commentText" placeholder="Leave a comment..." />
-          <button class="btn btn-primary" onclick="addComment()">Send</button>
-        </div>
-        <div class="item-list" id="commentsList"></div>
-      </section>
-    </div>
-
-    <footer>
-      Built for <strong id="footerName">Obbyrants30</strong> • Auto-syncing subscribers & protected by Device Master Key.
-    </footer>
-  </div>
-
-  <!-- STEP-BY-STEP ADMIN SECURITY GATE MODAL -->
-  <div class="modal-backdrop" id="authGateModal">
-    <div class="modal auth-box">
-      <!-- STEP 1: OWNER CONFIRMATION -->
-      <div id="gateStep1">
-        <div class="auth-icon">🛡️</div>
-        <h3>Admin Panel Access</h3>
-        <p>This device is not registered yet.<br><strong>Are you the owner trying to register this device?</strong></p>
-        <div style="display:flex; gap:12px; justify-content:center;">
-          <button class="btn btn-primary" onclick="handleOwnerChoice(true)">Yes, I'm the Owner</button>
-          <button class="btn btn-danger" onclick="handleOwnerChoice(false)">No</button>
-        </div>
-        <div class="error-msg" id="step1Error"></div>
-      </div>
-
-      <!-- STEP 2: DEVICE REGISTRATION KEY -->
-      <div id="gateStep2" class="hidden">
-        <div class="auth-icon">💻</div>
-        <h3>Register Main Device</h3>
-        <p>Enter the <strong>Device Registering Key</strong> to bind this laptop as the main owner device:</p>
-        <input type="password" id="deviceKeyInput" placeholder="Enter Device Key..." style="margin-bottom:12px; text-align:center;" />
-        <div style="display:flex; gap:10px; justify-content:center;">
-          <button class="btn" onclick="closeAuthGate()">Cancel</button>
-          <button class="btn btn-primary" onclick="verifyDeviceKey()">Register Device</button>
-        </div>
-        <div class="error-msg" id="step2Error"></div>
-      </div>
-
-      <!-- STEP 3: MAIN ADMIN PASSWORD -->
-      <div id="gateStep3" class="hidden">
-        <div class="auth-icon">🔑</div>
-        <h3>Main Admin Password</h3>
-        <p>Device verified! Enter your <strong>Main Admin Password</strong> to unlock customization controls:</p>
-        <input type="password" id="masterPassInput" placeholder="Enter Admin Password..." style="margin-bottom:12px; text-align:center;" />
-        <div style="display:flex; gap:10px; justify-content:center;">
-          <button class="btn" onclick="closeAuthGate()">Cancel</button>
-          <button class="btn btn-primary" onclick="verifyMasterPassword()">Unlock Admin Panel</button>
-        </div>
-        <div class="error-msg" id="step3Error"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- FULL ADMIN PANEL MODAL (UNLOCKED AFTER AUTH) -->
-  <div class="modal-backdrop" id="adminPanelModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>👑 Owner Admin Panel</h3>
-        <button class="btn" onclick="closeAdminPanel()">✕ Close</button>
-      </div>
-
-      <!-- 1. Auto Subscriber Sync & Channel Info -->
-      <div class="setting-group">
-        <h4>1. Auto Subscriber Sync & Channel Info</h4>
-        <div class="setting-row">
-          <label>YouTube Handle (for Auto-Sync)</label>
-          <input type="text" id="setYtHandle" placeholder="@obbyrants30" />
-        </div>
-        <div class="setting-row">
-          <label>Auto-Fetch Subs on Page Load</label>
-          <input type="checkbox" id="setAutoSync" />
-        </div>
-        <div class="setting-row">
-          <label>Fallback / Manual Sub Count</label>
-          <input type="number" id="setSubCount" />
-        </div>
-        <div class="setting-row">
-          <label>Next Subscriber Goal</label>
-          <input type="number" id="setSubGoal" />
-        </div>
-        <div class="setting-row">
-          <label>Channel Display Name</label>
-          <input type="text" id="setChannelName" />
-        </div>
-        <div class="setting-row">
-          <label>Avatar Badge Text</label>
-          <input type="text" id="setAvatarText" maxlength="4" />
-        </div>
-        <div class="setting-row">
-          <label>YouTube Channel URL</label>
-          <input type="text" id="setChannelUrl" />
-        </div>
-        <button class="btn" style="width:100%; justify-content:center; margin-top:6px;" onclick="fetchLiveSubscribers(true)">
-          🔄 Test Live Subscriber Sync Now
-        </button>
-      </div>
-
-      <!-- 2. Hero & About -->
-      <div class="setting-group">
-        <h4>2. Hero & About Text</h4>
-        <div class="setting-row">
-          <label>Live Status Tag</label>
-          <input type="text" id="setStatusTag" />
-        </div>
-        <div class="setting-row">
-          <label>Welcome Headline</label>
-          <input type="text" id="setHeroTitle" />
-        </div>
-        <div style="margin-top: 8px;">
-          <label style="font-size: 0.9rem; display:block; margin-bottom:6px;">About Description</label>
-          <textarea id="setAboutText" rows="3"></textarea>
-        </div>
-      </div>
-
-      <!-- 3. Appearance & Theme -->
-      <div class="setting-group">
-        <h4>3. Theme & Visual Style</h4>
-        <div class="setting-row">
-          <label>Theme Preset</label>
-          <select id="setThemePreset">
-            <option value="dark">Midnight Dark</option>
-            <option value="amoled">Pure AMOLED Black</option>
-            <option value="cyber">Cyber Slate</option>
-            <option value="light">Clean Light Mode</option>
-          </select>
-        </div>
-        <div class="setting-row">
-          <label>Accent Color</label>
-          <input type="color" id="setAccentColor" />
-        </div>
-        <div class="setting-row">
-          <label>Font Style</label>
-          <select id="setFontFamily">
-            <option value="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">Modern Sans</option>
-            <option value="'Courier New', Courier, monospace">Retro Monospace</option>
-            <option value="Georgia, serif">Editorial Serif</option>
-          </select>
-        </div>
-        <div class="setting-row">
-          <label>Corner Roundness (px)</label>
-          <input type="number" id="setRadius" min="0" max="30" />
-        </div>
-        <div class="setting-row">
-          <label>Show Background Grid</label>
-          <input type="checkbox" id="setBgGrid" />
-        </div>
-      </div>
-
-      <!-- 4. Section Toggles -->
-      <div class="setting-group">
-        <h4>4. Visible Sections</h4>
-        <div class="setting-row">
-          <label>Show About & Milestone Banner</label>
-          <input type="checkbox" id="togAbout" />
-        </div>
-        <div class="setting-row">
-          <label>Show Live Channel Updates</label>
-          <input type="checkbox" id="togUpdates" />
-        </div>
-        <div class="setting-row">
-          <label>Show Video & Game Recommendations</label>
-          <input type="checkbox" id="togRecs" />
-        </div>
-        <div class="setting-row">
-          <label>Show Song Ideas</label>
-          <input type="checkbox" id="togSongs" />
-        </div>
-        <div class="setting-row">
-          <label>Show Community Comments</label>
-          <input type="checkbox" id="togComments" />
-        </div>
-      </div>
-
-      <!-- 5. Security & Device Registration -->
-      <div class="setting-group">
-        <h4>5. Security Keys & Device Lock</h4>
-        <div class="setting-row">
-          <label>Device Registering Key</label>
-          <input type="text" id="setDeviceKey" />
-        </div>
-        <div class="setting-row">
-          <label>Main Admin Password</label>
-          <input type="text" id="setAdminPass" />
-        </div>
-        <div class="setting-row">
-          <label>Laptop Registration Status</label>
-          <button class="btn btn-danger" onclick="unregisterDevice()">Unregister This Laptop</button>
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;">
-        <button class="btn" onclick="resetAllData()" style="color: #f87171;">Reset Defaults</button>
-        <button class="btn btn-primary" onclick="saveSettings()">Save & Apply</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // ==========================================
-    // DEFAULT CONFIGURATION & SECURITY KEYS
-    // ==========================================
-    const DEFAULT_STATE = {
-      security: {
-        deviceKey: "OBBY-LAPTOP-2026",
-        adminPassword: "RantsMaster#30"
-      },
-      settings: {
-        ytHandle: "@obbyrants30",
-        autoSyncSubs: true,
-        channelName: "Obbyrants30",
-        avatarText: "O30",
-        subCount: 251,
-        subGoal: 500,
-        channelUrl: "https://www.youtube.com/@obbyrants30",
-        statusTag: "🔴 LIVE STATUS: RECORDING & EDITING",
-        heroTitle: "Welcome to the Official Obbyrants30 Hub!",
-        aboutText: "Hey everyone! Welcome to the official hub for Obbyrants30. Catch live channel updates, drop video & game recommendations, suggest background songs for upcoming rants and gameplay videos, and hang out with the community.",
-        themePreset: "dark",
-        accentColor: "#ef4444",
-        fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif",
-        radius: 14,
-        bgGrid: true,
-        showAbout: true,
-        showUpdates: true,
-        showRecs: true,
-        showSongs: true,
-        showComments: true
-      },
-      updates: [
-        { text: "We just hit 251 subscribers!! Thank you all so much for the support 🔥", time: "Today" },
-        { text: "Working on a brand new rant video — drop your background song ideas below!", time: "Yesterday" }
-      ],
-      recs: [
-        { category: "Rant Topic", text: "Why modern obbies are all copy-paste", votes: 14 },
-        { category: "Roblox Game", text: "Play Rivals 1v1s with subscribers", votes: 9 }
-      ],
-      songs: [
-        { title: "Sneaky Snitch - Kevin MacLeod", vibe: "Meme / Funny", votes: 11 },
-        { title: "Synthwave Chill Beat", vibe: "Chill / Lo-Fi", votes: 7 }
-      ],
-      comments: [
-        { user: "Alex_RBX", text: "Congrats on 251 subs! Road to 500 lets gooo", time: "2h ago" },
-        { user: "GamerKid99", text: "Can't wait for the next upload!", time: "5h ago" }
-      ]
-    };
-
-    const THEMES = {
-      dark:   { bg: "#0b0e14", surface: "#141923", surface2: "#1c2333", border: "#2a3449", text: "#f1f5f9", muted: "#94a3b8" },
-      amoled: { bg: "#000000", surface: "#0a0a0a", surface2: "#141414", border: "#262626", text: "#ffffff", muted: "#a3a3a3" },
-      cyber:  { bg: "#090d16", surface: "#111827", surface2: "#1e293b", border: "#334155", text: "#e2e8f0", muted: "#94a3b8" },
-      light:  { bg: "#f1f5f9", surface: "#ffffff", surface2: "#f8fafc", border: "#cbd5e1", text: "#0f172a", muted: "#475569" }
-    };
-
-    const STORAGE_KEY = "obbyrants30_hub_v2";
-    const DEVICE_REG_KEY = "obbyrants30_registered_laptop_token";
-
-    let appState = JSON.parse(localStorage.getItem(STORAGE_KEY)) || structuredClone(DEFAULT_STATE);
-    let adminSessionUnlocked = false;
-
-    function persist() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-    }
-
-    function isDeviceRegistered() {
-      return localStorage.getItem(DEVICE_REG_KEY) === "REGISTERED_OWNER_LAPTOP";
-    }
-
-    // ==========================================
-    // AUTOMATIC LIVE SUBSCRIBER COUNT UPDATER
-    // ==========================================
-    async function fetchLiveSubscribers(manualTrigger = false) {
-      if (!appState.settings.autoSyncSubs && !manualTrigger) return;
-
-      const dot = document.get
+    .setting-row
